@@ -60,6 +60,10 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
+	public User() {
+		super();
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -1,6 +1,9 @@
 package com.sistema.entity;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,23 +35,31 @@ public class User implements Serializable {
 	private Long id;
 	
 	@Column
+	@NotBlank
+	@Size(min=5,max=8,message="No se cumplen las reglas de longitud")
 	private String firstName;
 	
 	@Column
+	@NotBlank
 	private String lastName;
 	
 	@Column
+	@NotBlank
 	private String email;
 	
 	@Column
+	@NotBlank
 	private String username;
 	
 	@Column
+	@NotBlank
 	private String password;
 	
 	@Transient
+	@NotBlank
 	private String confirmPassword;
 	
+	@Size(min=1)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles",
 			joinColumns=@JoinColumn(name="user_id"),

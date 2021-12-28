@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sistema.dto.ChangePasswordForm;
 import com.sistema.entity.User;
 import com.sistema.repository.UserRepository;
 
-import ch.qos.logback.core.joran.conditional.ThenOrElseActionBase;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -80,6 +80,26 @@ public class UserServiceImpl implements UserService{
 		User user = getUserById(id);
 		repository.delete(user);
 		
+	}
+
+	@Override
+	public User changePassword(ChangePasswordForm form) throws Exception{
+		User user = getUserById(form.getId());
+		
+		if( !user.getPassword().equals(form.getCurrentPassword())) {
+			throw new Exception("Current Password Incorrect.");
+		}
+		
+		if ( user.getPassword().equals(form.getNewPassword())) {
+			throw new Exception("New Password must be different than Current Password!");
+		}
+		
+		if( !form.getNewPassword().equals(form.getConfirmPassword())) {
+			throw new Exception("New Password and Confirm Password does not match!");
+		}
+		
+		user.setPassword(form.getNewPassword());
+		return repository.save(user);
 	}
 	
 
